@@ -1,9 +1,11 @@
 import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+// import { TemplatePrivado } from "./routes/TemplatePrivado";
+import Dashboard  from "./pages/Dashboard";
 import CadastroUsuario from "./pages/CadastroUsuario";
 import Home from "./pages/Home";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Dashboard  from "./pages/Dashboard";
+
 
 
 function App() {
@@ -12,9 +14,11 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path='/' Component={Home}/>
           <Route path='/cadastrousuario' Component={CadastroUsuario}/>
-          <Route path='/dashboard' Component={Dashboard}/>
+          <Route path='/' Component={Home}/>
+          {/* <Route path='/' Component={TemplatePrivado} >          */}
+                <Route path='/dashboard' Component={Dashboard}/>
+          {/* </Route> */}
         </Routes>
       </BrowserRouter>
       </AuthProvider>

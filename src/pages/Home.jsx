@@ -14,10 +14,11 @@ function Home() {
   async function onSubmit(data){
       try {
          const isSuccess = await signIn(data)
+         // console.log(data)
          if(isSuccess){
             navigate('/dashboard')
          } else {
-          alert('Email/senha inválidos')
+          alert('Email/senha inválidos-do Home')
          }
       } catch (error) {
           (console.log(error))
@@ -38,7 +39,7 @@ function Home() {
             <span>{formState.errors?.email?.message}</span>
             <input placeholder="Senha" type="senha" {...register('senha', {required: 'A senha é obrigatória'})}/>
             <span>{formState.errors?.senha?.message}</span>
-            <button onClick={onSubmit}>Entrar</button>
+            <button>Entrar</button>
             <Link to="/CadastroUsuario">
             <button>Cadastrar</button>   
             </Link>
@@ -52,3 +53,5 @@ function Home() {
   export default Home
 
 
+
+//   <button onClick={onSubmit}>Entrar</button>
