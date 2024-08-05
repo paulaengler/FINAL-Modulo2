@@ -1,63 +1,49 @@
-import { createContext, useState } from "react";
-// useEffect
+import { createContext, useState, useEffect } from "react";
 
-export const AuthContext = createContext(null)
+export const AuthContext = createContext({
+    user:null,
+    signIn: async () => {},
+})
 
 export function AuthProvider({ children }){
     const [auth, setAuth] = useState(null);
+    const [user, setUser] = useState(null);
 
-   
-    const getCredentials = async () => {
-        try {
-            const response = await fetch('../src/public/database.json');
-            if (!response.ok) {
-                throw new Error('Não foi possível obter o arquivo de credenciais');
-            }
-            const credentials = await response.json();
-
-            console.log(credentials)
-            return credentials;
-        } catch (error) {
-            console.error('Erro ao obter as credenciais', error);
-            throw error;
+    useEffect(() => {
+        const storageAuth = localStorage.getItem('auth')
+        if (storageAuth){
+            setAuth(JSON.parse(storageAuth));
         }
-    };
-    
-    const signIn = async () => {
+
+    }, []);
+
+    async function signIn(data) {
+        // Verifica se o email e senha estão corretos
         try {
-            // Obter credenciais do arquivo JSON
-            const credentials = await getCredentials();
+            console.log(data);
+            const response = await fetch(`http://localhost:3000/users?email=${data.email}&senha=${data.senha}`);
+            const users = await response.json();
+            console.log(response);
     
-            // Desestruturar e-mail e senha
-            const { email, senha } = credentials;
-    
-            // Fazer a requisição de autenticação
-            const response = await fetch('http://localhost:3000/users', { 
-                method: 'POST',
-                headers: {
-                    'Content-type': "application/json"
-                },
-                body: JSON.stringify({ email, senha })
-            });
-    
-            if (!response.ok) {
-                throw new Error('Erro na autenticação');
+            if (users.length === 0) {
+                throw new Error("Email/Senha inválida");
             }
     
-            const data = await response.json();
+            if (users.length > 0) {
+                setUser(data); // Atualizar o estado do usuário
+                localStorage.setItem('@natureza365:user', JSON.stringify(data)); // Salvar os dados no localStorage
+                return true;
+            } else {
+                return false;
+            }
     
-            localStorage.setItem('auth', JSON.stringify(data));
-            setAuth(data);
-            return data;
         } catch (error) {
-            console.error('Erro na autenticação', error);
-            throw error;
+            console.error('Error during signIn:', error);
+            // alert("Email/Senha inválida-authcontext");
+            // throw new Error("Email/Senha inválida");
         }
-    };
-    
-    // Executar a função de autenticação
-    signIn(); 
-  
+    }
+
     const signOut = () => {
         localStorage.removeItem('auth');
         setAuth(null);
@@ -69,62 +55,3 @@ export function AuthProvider({ children }){
         </AuthContext.Provider>
     );    
 }
-
-
-
-
-// useEffect(() => {
-    //     const storageAuth = localStorage.getItem('auth')
-    //     if (storageAuth){
-    //         setAuth(JSON.parse(storageAuth));
-    //     }
-
-    // }, []);
-
-  
-    // const signIn = async ({ email, senha}) => {
-    //     try {
-    //         const response = await fetch('http://localhost:3000/users', { 
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-type': "application/json"
-    //             },
-    //             body: JSON.stringify({ email, senha })
-    //         });
-
-    //         console.log(response)
-
-    //         if(!response.ok){
-    //             throw new Error('Erro na autenticação')
-    //         }
-
-    //         const data = await response.json();
-
-    //         localStorage.setItem('auth', JSON.stringify(data));
-    //         setAuth(data);
-    //         return data;
-    //     }catch (error) {
-    //         console.error('Erro na autenticação', error)
-    //         throw error
-    //     }
-    // };
-
-
-
-
-
-    // import { createContext, useState, useContext } from 'react';
-
-// const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-//     const [auth, setAuth] = useState(null);
-
-//     return (
-//         <AuthContext.Provider value={{ auth, setAuth }}>
-//             {children}
-//         </AuthContext.Provider>
-//     );
-// };
-
-// export const useAuth = () => useContext(AuthContext);
