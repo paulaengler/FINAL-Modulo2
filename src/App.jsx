@@ -8,6 +8,7 @@ import CadastroUsuario from "./pages/CadastroUsuario";
 import CadastroLocais from "./pages/CadastroLocais";
 import ListagemLocais from "./pages/ListagemLocais";
 import Logout from "./contexts/SignOut";
+import EditarLocais from '../src/pages/EditarLocais';
 
 
 
@@ -22,7 +23,8 @@ function App() {
           {/* <Route path='/' Component={TemplatePrivado} >          */}
                 <Route path='/dashboard' Component={Dashboard}/>
                 <Route path='/cadastrolocais' Component={CadastroLocais}/>
-                <Route path='/listagemlocais' Component={ListagemLocais}/>
+                <Route path='/cadastrolocais/:id' Component={EditarLocais}/>
+                <Route path='/listagemlocais' Component={ListagemLocais}/>                
                 <Route path='/signout' Component={Logout}/>
                 
           {/* </Route> */}

@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Sidebar } from "../components/Sidebar";
+import { MapContainer, TileLayer } from "react-leaflet";
+import { Marcadores } from "../components/Marcadores";
+import { useState } from "react";
 
 async function addLocais(values) {
   try {
@@ -45,6 +48,10 @@ function RedCadastroLocal() {
     }
   };
 
+  //MAPA
+  const [locais, setLocais] = useState([]);
+  const coordenadaInicial = [-27.59249003298383, -48.56058625979836]
+
   return (
     <>
     <Sidebar></Sidebar>
@@ -53,9 +60,9 @@ function RedCadastroLocal() {
           <label>Nome do local</label>
           <input
             placeholder="Digite o nome do local"
-            {...register("nome", { required: "O nome do local é obrigatório" })}
+            {...register("nomelocal", { required: "O nome do local é obrigatório" })}
           />
-          {formState.errors?.nome?.message}
+          {formState.errors?.nomelocal?.message}
 
           <label>CEP</label>
           <input
@@ -92,6 +99,22 @@ function RedCadastroLocal() {
           />
           {formState.errors?.cidade?.message}
 
+          <label>Latitude</label>
+          <input
+            type="string"
+            placeholder="Digite a latitude"
+            {...register("latitude", { required: "A latitude é obrigatória" })}
+          />
+          {formState.errors?.latitude?.message}
+
+          <label>Longitude</label>
+          <input
+            type="string"
+            placeholder="Digite a longitude"
+            {...register("longitude", { required: "A longitude é obrigatória" })}
+          />
+          {formState.errors?.longitude?.message}
+
 
             <textarea 
                 placeholder="Digite a descrição do local"
@@ -100,6 +123,12 @@ function RedCadastroLocal() {
                 ></textarea>
        
                   {/* ***MAPA*** */}
+            <div>       
+                <MapContainer center={coordenadaInicial} zoom={8} className="mapa-cadastro" style={{width:'500px', height:'500px', border:'5px'}}>
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                <Marcadores locais={locais}></Marcadores>
+                </MapContainer>
+        </div>
        
 
           <button type="submit">Cadastrar</button>
