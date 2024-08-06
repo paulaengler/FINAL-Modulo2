@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
+
 async function addUsers(values) {
   try {
     console.log(values);
@@ -46,6 +47,7 @@ function CadastroUsuario() {
 
   return (
     <>
+    
       <div>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label>Nome</label>

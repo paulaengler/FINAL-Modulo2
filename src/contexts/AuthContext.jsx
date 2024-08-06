@@ -45,7 +45,7 @@ export function AuthProvider({ children }){
     }
 
     const signOut = () => {
-        localStorage.removeItem('auth');
+        localStorage.removeItem('@natureza365:user');
         setAuth(null);
     };
 
