@@ -59,18 +59,6 @@
       "endereco": "Avenida Brasil",
       "complemento": "numero 1180",
       "cep": "89255-700"
-    },
-    {
-      "id": "c394",
-      "nome": "111",
-      "sobrenome": "111",
-      "nascimento": "2024-08-06",
-      "cpf": "111",
-      "email": "pa@gmail.com",
-      "senha": "111",
-      "endereço": "111",
-      "numero": "111",
-      "cep": "1111"
     }
   ],
   "locais": [
