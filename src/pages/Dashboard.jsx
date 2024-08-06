@@ -1,79 +1,120 @@
-// import { api } from '../services/api';
-import { Sidebar } from '../components/Sidebar';
 import { useState, useEffect } from "react";
-// import { useNavigate } from "react-router-dom"
+import { Sidebar } from "../components/Sidebar";
+import { MapPin, UsersRound } from "lucide-react";
+import { MapContainer, TileLayer } from "react-leaflet";
+import { Marcadores } from "../components/Marcadores";
+import 'leaflet/dist/leaflet.css';
 
 
 function Dashboard() {
+  //DOIS QUADROS - usuarios
 
-  // const navigate = useNavigate()
-  const [lista, setLista] = useState([])
+  const [numeroDeUsuarios, setNumeroDeUsuarios] = useState(0);
 
-  console.log(lista)
+    useEffect(() => {
+      const carregarUsuarios = async () => {
+        try {
+          const resposta = await fetch("http://localhost:3000/users");
+          const dados = await resposta.json();
+          console.log(dados); 
+          setNumeroDeUsuarios(Object.keys(dados).length);
+        } catch (error) {
+          console.error('Erro ao carregar os dados:', error);
+        }
+      };  
+      carregarUsuarios();
+    }, []);
+
+    //DOIS QUADROS - locais
+    const [numeroDeLocais, setNumeroDeLocais] = useState(0);
+
+    useEffect(() => {
+      const carregarLocais = async () => {
+        try {
+          const resposta = await fetch("http://localhost:3000/locais");
+          const dados = await resposta.json();
+          console.log(dados); 
+          setNumeroDeLocais(Object.keys(dados).length);
+        } catch (error) {
+          console.error('Erro ao carregar os dados:', error);
+        }
+      };  
+      carregarLocais();
+    }, []);
+  
+
+
+  // TABELA GRANDE
+  const [locais, setLocais] = useState([]);
 
   async function carregarDados() {
-      const resposta = await fetch('http://localhost:3000/locais')
-      setLista(await resposta.json())
+    const resposta = await fetch("http://localhost:3000/locais");
+    setLocais(await resposta.json());
   }
-
 
   useEffect(() => {
-      carregarDados()
-  }, [])
+    carregarDados();
+  }, []);
 
 
-    return (
-      <>
-      
+  //MAPA
+  const coordenadaInicial = [-27.59249003298383, -48.56058625979836]
+
+
+  return (
+    <>
       <Sidebar></Sidebar>
-        <div>      
-        <h1> Dashboard </h1>
-        {/* <button onClick={() => navigate('/cadastrolocais')}>Cadastrar</button>    */}
 
-        <table border="1">
-                <thead>
-                    <tr>
-                        <td>Nome do local</td>
-                        <td>Descrição</td>
-                    </tr>
-                </thead>
-                <tbody>
+      <div>
+        {/* DOIS QUADROS */}
+        <div>
+        <div style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '8px', width: '200px' }}>
+        <h2>Usuários</h2>
+        <UsersRound size={16}/>
+        <p>{numeroDeUsuarios}</p>
+        </div>          
+        </div>
 
-                {
-                        lista.map((item) => (
-                            <tr key={item.id}>
-                                <td>{item.nomelocal}</td>
-                                <td>{item.descricao}</td>
-                                
-                            </tr>
-                        ))
-                    }
-          </tbody>
+        <div>
+        <div style={{ border: '1px solid #ccc', padding: '1rem', borderRadius: '8px', width: '200px' }}>
+        <h2>Locais</h2>
+        <MapPin size={16}/>
+        <p>{numeroDeLocais}</p>
+        </div>          
+        </div>
+
+        {/* TABELA GRANDE */}
+        <div>
+          <h2> Locais e Descrição</h2>
+          <table border="1">
+            <thead>
+              <tr>
+                <td>Nome do local </td>
+                <td>Descrição</td>
+              </tr>
+            </thead>
+            <tbody>
+              {locais.map((local) => (
+                <tr key={local.id}>
+                  <td>{local.nomelocal}</td>
+                  <td>{local.descricao}</td>
+                </tr>
+              ))}
+            </tbody>
           </table>
+        </div>
 
-        </div>       
-      </>
-    )
-  }
-  
-  export default Dashboard
+        {/* MAPA */}
+        <div>       
+                <MapContainer center={coordenadaInicial} zoom={8} className="mapa-dashboard" style={{width:'500px', height:'500px', border:'5px'}}>
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                <Marcadores locais={locais}></Marcadores>
+                </MapContainer>
+        </div>
 
+      </div>
+    </>
+  );
+}
 
-
- // const coordenadaInicial = [-27.59249003298383, -48.56058625979836]
-
-  // // const [totalUsers, setTotalUsers ] = useState(0);
-  // const [locais, setLocais] = useState(0);
-
-  // async function buscarLocais() {
-  //   const response = await api('/locais')
-  //   const data = await response.json()
-  //   setLocais(data)
-  // }
-
-  // useEffect(() => {
-    // buscarLocais()
-  // }, [])
-
-  // return
-      {/* <Link to="/"><button>Cadastrar</button></Link> */}
+export default Dashboard;
