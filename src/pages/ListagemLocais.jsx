@@ -4,8 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { Marcadores } from "../components/Marcadores";
 import 'leaflet/dist/leaflet.css';
-import {useForm} from 'react-hook-form';
-import { PaginaEditarLocal } from "./EditarLocais";
 
 function ListagemLocais() {
   const navigate = useNavigate();
@@ -61,9 +59,9 @@ function ListagemLocais() {
                   </MapContainer>
                 </td>
                 <td> 
-                    <Link to="/PaginaEditarLocal">
+                  <Link to={`/cadastrolocais/${local.id}`}>
                     <button>Editar</button>
-                    </Link>                
+                  </Link>              
                 </td>
                 <td>
                   <button>Excluir</button>
@@ -78,3 +76,4 @@ function ListagemLocais() {
 }
 
 export default ListagemLocais;
+
