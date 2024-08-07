@@ -86,7 +86,7 @@ function CadastroUsuario() {
 
           <label>CPF</label>
           <input
-            type="number"
+            type="text"
             placeholder="Digite o CPF"
             {...register("cpf", { required: "O CPF é obrigatório" })}
           />
@@ -127,7 +127,7 @@ function CadastroUsuario() {
           <input
             type="number"
             placeholder="Digite o CEP do endereço"
-            {...register("cep", { required: "O email é obrigatório" })}
+            {...register("cep", { required: "O CEP é obrigatório" })}
           />
           {/* {formState.errors?.cep?.message} */}
 
@@ -142,6 +142,43 @@ export default CadastroUsuario;
 
 
 
+// function pegarEndereco() {
+//   let cep = prompt("Digite o seu CEP:");
+
+// fetch(`https://viacep.com.br/ws/${cep}/json`, {method: 'GET'})
+// .then((retornoFetch)=> {
+//   return retornoFetch.json()
+// }).then((retornoApi)=>{
+//   alert(`${retornoApi.logradouro}, ${retornoApi.complemento} - ${retornoApi.bairro} -
+//   ${retornoApi.localidade}/${retornoApi.uf}`);
+
+// let resposta = prompt("Os dados estão corretos?");
+
+// if(resposta.toLocaleLowerCase() == "sim"){
+//   localStorage.setItem("endereco", JSON.stringify(retornoApi));
+// }
+// });
+// }
 
 
-
+// async function apiCep(){
+//   try {
+//      const dados = await fetch ('https://viacep.com.br/ws/${cep}/json', {
+//      method: 'GET',
+//      headers: {
+//        'Content-Type': 'application/json',
+//      },
+//      body: JSON.stringify(dados),
+//    });
+//    if (!dados.ok) {
+//      alert("Houve um erro ao buscar o cep");
+//      return false; 
+//    } else {
+//      alert("CEP encontrado com sucesso");
+//      return true; 
+//    }
+//  } catch (error) {
+//    alert("Houve um erro- no catch");
+//    return false; 
+//  }
+//  }

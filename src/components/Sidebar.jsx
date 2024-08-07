@@ -3,6 +3,8 @@ import { House } from 'lucide-react';
 import { MapPin } from 'lucide-react';
 import { UsersRound } from 'lucide-react';
 import { LogOut } from 'lucide-react';
+import { SignOut } from '../contexts/SignOut'
+
 // import './sidebar.css'
 
 export function Sidebar(){
@@ -39,7 +41,7 @@ export function Sidebar(){
         <div className="quadro2">
             <div className="quadro">
                 <h2> Sair </h2>
-                <button className="btn-sidebar">
+                <button className="btn-sidebar" onClick={SignOut}>
                     <LogOut size={16}/>
                 <Link to="/">Sair</Link>
                 </button>
