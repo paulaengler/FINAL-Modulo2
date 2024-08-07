@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../contexts/useAuth";
+import { UsersRound, LogIn } from 'lucide-react';
 // import { useContext } from 'react';
 // import { AuthContext } from "../contexts/AuthContext";
 // import LoginComponent from "../contexts/LoginComponent";
@@ -18,7 +19,7 @@ function Home() {
          if(isSuccess){
             navigate('/dashboard')
          } else {
-          alert('Email/senha inválidos-do Home')
+          alert('Email/senha inválidos')
          }
       } catch (error) {
           (console.log(error))
@@ -39,9 +40,13 @@ function Home() {
             <span>{formState.errors?.email?.message}</span>
             <input placeholder="Senha" type="senha" {...register('senha', {required: 'A senha é obrigatória'})}/>
             <span>{formState.errors?.senha?.message}</span>
-            <button>Entrar</button>
+            <button>
+               <LogIn size={16}/>
+               Entrar</button>
             <Link to="/CadastroUsuario">
-            <button>Cadastrar</button>   
+            <button>
+               <UsersRound size={16}/>
+               Cadastrar</button>   
             </Link>
         </form>
         </div>
@@ -54,4 +59,3 @@ function Home() {
 
 
 
-//   <button onClick={onSubmit}>Entrar</button>

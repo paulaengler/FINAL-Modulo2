@@ -8,9 +8,8 @@ import CadastroUsuario from "./pages/CadastroUsuario";
 import CadastroLocais from "./pages/CadastroLocais";
 import ListagemLocais from "./pages/ListagemLocais";
 import Logout from "./contexts/SignOut";
-import EditarLocais from '../src/pages/EditarLocais';
-
-
+// import Logout from "./contexts/SignOut";
+// import SignOut from "./components/Sidebar";
 
 function App() {
   return (
@@ -22,10 +21,10 @@ function App() {
           <Route path='/' Component={Home}/>
           {/* <Route path='/' Component={TemplatePrivado} >          */}
                 <Route path='/dashboard' Component={Dashboard}/>
-                <Route path='/cadastrolocais' Component={CadastroLocais}/>
-                <Route path='/cadastrolocais/:id' Component={EditarLocais}/>
+                <Route path="/cadastrolocais" element={<CadastroLocais />} />
+                <Route path="/cadastrolocais/:id" element={<CadastroLocais />} />
                 <Route path='/listagemlocais' Component={ListagemLocais}/>                
-                <Route path='/signout' Component={Logout}/>
+                <Route path='/' Component={Logout}/>
                 
           {/* </Route> */}
         </Routes>
@@ -36,33 +35,3 @@ function App() {
 }
 
 export default App;
-
-
-// export function AppRoutes() {
-//   return (
-//       <Routes>
-//           {/* MINHAS ROTAS PUBLICAS */}
-//           <Route path="/" element={<LoginPage />} />
-//           <Route path="/cadastro" element={<CadastroPage />} />
-//           {/* MINHAS ROTAS PRIVADAS */}
-//           <Route path="/dashboard" element={<TemplatePrivateRoute />}>
-//               <Route path="/dashboard" element={<HomePage />}/>
-//           </Route>
-//       </Routes>
-//   )
-// } 
-
-// export function App() {
-
-//   return (
-//     <>
-//       <AuthProvider>
-//         <BrowserRouter>
-//           <AppRoutes />
-//         </BrowserRouter>
-//       </AuthProvider>
-//     </>
-//   )
-// }
-
-// export default App

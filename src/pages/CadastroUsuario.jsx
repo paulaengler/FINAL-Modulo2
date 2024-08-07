@@ -76,6 +76,14 @@ function CadastroUsuario() {
           />
           {/* {formState.errors?.nascimento?.message} */}
 
+          <label>Sexo</label>
+          <select {...register('sexo', { required: 'O sexo é obrigatório' })}>
+          <option value=""></option>
+          <option value="feminino">Feminino</option>
+          <option value="masculino">Masculino</option>
+          </select>
+          {formState.errors?.sexo?.message}
+
           <label>CPF</label>
           <input
             type="number"

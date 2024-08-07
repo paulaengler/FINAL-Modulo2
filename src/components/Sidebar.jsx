@@ -41,7 +41,7 @@ export function Sidebar(){
                 <h2> Sair </h2>
                 <button className="btn-sidebar">
                     <LogOut size={16}/>
-                <Link to="/signout">Sair</Link>
+                <Link to="/">Sair</Link>
                 </button>
             </div>
         </div>
@@ -50,4 +50,3 @@ export function Sidebar(){
       </>
     )
 }
-
