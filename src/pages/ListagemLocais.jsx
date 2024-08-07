@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { Marcadores } from "../components/Marcadores";
 import 'leaflet/dist/leaflet.css';
+import { MapPin, Pencil, Trash } from "lucide-react";
 
 function ListagemLocais() {
   const navigate = useNavigate();
@@ -25,7 +26,17 @@ function ListagemLocais() {
   const coordenadaInicial = [-27.59249003298383, -48.56058625979836]
 
 
-  //EDITAR
+  //EXCLUIR
+
+  async function excluirLocal(id) {
+    // Envia uma solicitação DELETE para o servidor
+    await fetch(`http://localhost:3000/locais/${id}`, {
+      method: 'DELETE',
+    });
+  
+    // Atualiza a lista de locais removendo o local excluído
+    setLista(lista.filter(local => local.id !== id));
+  }
   
 
   return (
@@ -33,9 +44,9 @@ function ListagemLocais() {
       <Sidebar></Sidebar>
       <div>
         <h1> LISTAGEM LOCAIS </h1>
-        <button onClick={() => navigate("/cadastrolocais")}>Cadastrar</button>
+        <button onClick={() => navigate("/cadastrolocais")}>
+        <MapPin size={16}/> Cadastrar</button>
 
-        {/* <Link to="/"> <button>Cadastrar</button></Link> */}
         <table border="1">
           <thead>
             <tr>
@@ -60,11 +71,13 @@ function ListagemLocais() {
                 </td>
                 <td> 
                   <Link to={`/cadastrolocais/${local.id}`}>
-                    <button>Editar</button>
+                    <button>
+                      <Pencil size={16}/>Editar</button>
                   </Link>              
                 </td>
                 <td>
-                  <button>Excluir</button>
+                  <button onClick={() => excluirLocal(local.id)}>
+                    <Trash size={16}/>Excluir</button>
                 </td>
               </tr>
             ))}

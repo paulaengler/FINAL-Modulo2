@@ -4,6 +4,7 @@ import { Sidebar } from "../components/Sidebar";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { Marcadores } from "../components/Marcadores";
 import { useEffect, useState } from "react";
+import { MapPin } from "lucide-react";
 
 async function saveLocal(values, isEditMode) {
   try {
@@ -135,7 +136,8 @@ function RedCadastroLocal() {
             </MapContainer>
           </div>
        
-          <button type="submit">{isEditMode ? "Editar" : "Cadastrar"}</button>
+          <button type="submit">
+            <MapPin size={16}/>{isEditMode ? "Editar" : "Cadastrar"}</button>
         </form>
       </div>
     </>
@@ -143,3 +145,4 @@ function RedCadastroLocal() {
 }
 
 export default RedCadastroLocal;
+

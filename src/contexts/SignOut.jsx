@@ -1,14 +1,14 @@
-import { useAuth } from '../contexts/useAuth';
+// import { useAuth } from '../contexts/useAuth';
 import { Link } from 'react-router-dom';
 
 
-export default function Logout(){
-    const { signOut } = useAuth();
-
+export function SignOut () {
+    localStorage.removeItem('@natureza365:user');
+  
     return(
         <>
-        <div>
-        <button onClick={signOut}> 
+           <div>
+        <button onClick={SignOut}> 
             <Link to='/'>Home</Link> 
         </button>        
         </div>

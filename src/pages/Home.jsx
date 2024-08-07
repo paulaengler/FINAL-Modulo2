@@ -38,7 +38,7 @@ function Home() {
         <form onSubmit={handleSubmit(onSubmit)} className="form-home" >
             <input placeholder="Email" type="email" {...register('email', {required: 'O email é obrigatório',})}/>
             <span>{formState.errors?.email?.message}</span>
-            <input placeholder="Senha" type="senha" {...register('senha', {required: 'A senha é obrigatória'})}/>
+            <input placeholder="Senha" type="password" {...register('senha', {required: 'A senha é obrigatória'})}/>
             <span>{formState.errors?.senha?.message}</span>
             <button>
                <LogIn size={16}/>

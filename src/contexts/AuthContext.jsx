@@ -3,6 +3,7 @@ import { createContext, useState, useEffect } from "react";
 export const AuthContext = createContext({
     user:null,
     signIn: async () => {},
+    signOut: () => {}
 })
 
 export function AuthProvider({ children }){
@@ -44,10 +45,10 @@ export function AuthProvider({ children }){
         }
     }
 
-    const signOut = () => {
+    async function signOut () {
         localStorage.removeItem('@natureza365:user');
-        setAuth(null);
-    };
+        setUser(null);
+    }
 
     return(
         <AuthContext.Provider value={{ auth, setAuth, signIn, signOut }}>
