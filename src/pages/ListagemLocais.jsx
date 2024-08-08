@@ -29,15 +29,24 @@ function ListagemLocais() {
   //EXCLUIR
 
   async function excluirLocal(id) {
-    // Envia uma solicitação DELETE para o servidor
-    await fetch(`http://localhost:3000/locais/${id}`, {
-      method: 'DELETE',
-    });
+    // Exibe um alerta de confirmação
+    const confirmacao = window.confirm("Tem certeza de que deseja excluir este local?");
   
-    // Atualiza a lista de locais removendo o local excluído
-    setLista(lista.filter(local => local.id !== id));
+    if (confirmacao) {
+      try {
+        // Envia uma solicitação DELETE para o servidor
+        await fetch(`http://localhost:3000/locais/${id}`, {
+          method: 'DELETE',
+        });
+  
+        // Atualiza a lista de locais removendo o local excluído
+        setLista(lista.filter(local => local.id !== id));
+      } catch (error) {
+        // Exibe um alerta se houver um erro durante a exclusão
+        alert("Houve um erro ao excluir o local.");
+      }
+    }
   }
-  
 
   return (
     <>

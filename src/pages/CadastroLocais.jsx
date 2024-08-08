@@ -32,11 +32,29 @@ async function saveLocal(values, isEditMode) {
   }
 }
 
+async function buscarEndereco(cep) {
+  try {
+    const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const endereco = await resposta.json();
+
+    if (endereco.erro) {
+      alert("CEP não encontrado.");
+      return null;
+    }
+
+    return endereco;
+  } catch (error) {
+    alert("Erro ao buscar o endereço.");
+    return null;
+  }
+}
+
 function RedCadastroLocal() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { register, formState, handleSubmit, setValue } = useForm();
   const [isEditMode, setIsEditMode] = useState(false);
+  const [cep, setCep] = useState("");
 
   useEffect(() => {
     if (id) {
@@ -61,6 +79,17 @@ function RedCadastroLocal() {
     }
   };
 
+  const handleBuscarEndereco = async () => {
+    const endereco = await buscarEndereco(cep);
+    if (endereco) {
+      setValue("endereço", endereco.logradouro);
+      setValue("numero", endereco.numero || "");
+      setValue("bairro", endereco.bairro);
+      setValue("cidade", endereco.localidade);
+      setValue("estado", endereco.uf);
+    }
+  };
+
   //MAPA
   const [locais, setLocais] = useState([]);
   const coordenadaInicial = [-27.59249003298383, -48.56058625979836]
@@ -79,11 +108,15 @@ function RedCadastroLocal() {
 
           <label>CEP</label>
           <input
-            type="number"
+            type="text"
             placeholder="Digite o CEP do local"
-            {...register("cep", { required: "O CPF é obrigatório" })}
+            value={cep}
+            onChange={(e) => setCep(e.target.value)}
           />
           {formState.errors?.cep?.message}
+          <button type="button" onClick={handleBuscarEndereco}>
+            Buscar Endereço
+          </button>
 
           <label>Endereço</label>
           <input

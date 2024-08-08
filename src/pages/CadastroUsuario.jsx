@@ -1,9 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
+async function verificarCPF(cpf) {
+  const resposta = await fetch(`http://localhost:3000/users?cpf=${cpf}`);
+  const usuarios = await resposta.json();
+  return usuarios.length === 0;
+}
 
 async function addUsers(values) {
   try {
+
+    const cpfUnico = await verificarCPF(values.cpf);
+
+    if (!cpfUnico) {
+      alert("Já existe um usuário cadastrado com este CPF.");
+      return false;
+    }
+
     console.log(values);
 
     const resposta = await fetch('http://localhost:3000/users', {
@@ -27,9 +41,51 @@ async function addUsers(values) {
   }
 }
 
+async function buscarEndereco(cep) {
+  
+  try {
+    
+    const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const endereco = await resposta.json();
+
+    if (endereco.erro) {
+      alert("CEP não encontrado.");
+      return null;
+    }
+
+    return endereco;
+  } catch (error) {
+    alert("Erro ao buscar o endereço.");
+    return null;
+  }
+}
+
 function CadastroUsuario() {
   const navigate = useNavigate();
-  const { register, formState, handleSubmit } = useForm();
+  const { register, formState, handleSubmit, setValue } = useForm();
+  const [cep, setCep] = useState("");
+
+  const validarCPF = (cpf) => {
+    // Remove caracteres não numéricos
+    const cpfLimpo = cpf.replace(/\D/g, '');
+    
+    // Verifica se o CPF tem exatamente 11 dígitos
+    if (cpfLimpo.length !== 11) {
+      alert("O CPF deve ter exatamente 11 dígitos.");
+    }    
+    return true; // Retorna true se a validação passar
+  };
+
+  const handleBuscarEndereco = async () => {
+    const endereco = await buscarEndereco(cep);
+    if (endereco) {
+      setValue("endereço", endereco.logradouro);
+      setValue("numero", endereco.numero || "");
+      setValue("bairro", endereco.bairro);
+      setValue("cidade", endereco.localidade);
+      setValue("estado", endereco.uf);
+    }
+  };
 
   const onSubmit = async (values) => { 
 
@@ -88,7 +144,7 @@ function CadastroUsuario() {
           <input
             type="text"
             placeholder="Digite o CPF"
-            {...register("cpf", { required: "O CPF é obrigatório" })}
+            {...register("cpf", { required: "O CPF é obrigatório", validate: validarCPF, })}
           />
           {/* {formState.errors?.cpf?.message} */}
 
@@ -125,10 +181,14 @@ function CadastroUsuario() {
 
           <label>CEP</label>
           <input
-            type="number"
+            type="text"
             placeholder="Digite o CEP do endereço"
-            {...register("cep", { required: "O CEP é obrigatório" })}
+            value={cep}
+            onChange={(e) => setCep(e.target.value)}
           />
+           <button type="button" onClick={handleBuscarEndereco}>
+            Buscar Endereço
+          </button>
           {/* {formState.errors?.cep?.message} */}
 
           <button type="submit">Cadastrar</button>
