@@ -1,6 +1,7 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import "../pages/CadastroUsuario.css";
 
 async function verificarCPF(cpf) {
   const resposta = await fetch(`http://localhost:3000/users?cpf=${cpf}`);
@@ -10,7 +11,6 @@ async function verificarCPF(cpf) {
 
 async function addUsers(values) {
   try {
-
     const cpfUnico = await verificarCPF(values.cpf);
 
     if (!cpfUnico) {
@@ -20,31 +20,29 @@ async function addUsers(values) {
 
     console.log(values);
 
-    const resposta = await fetch('http://localhost:3000/users', {
-      method: 'POST',
+    const resposta = await fetch("http://localhost:3000/users", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
     });
 
     if (!resposta.ok) {
       alert("Houve um erro ao cadastrar o usuário");
-      return false; 
+      return false;
     } else {
       alert("Pessoa cadastrada com sucesso");
-      return true; 
+      return true;
     }
   } catch (error) {
     alert("Houve um erro ao cadastrar o usuário - no catch");
-    return false; 
+    return false;
   }
 }
 
 async function buscarEndereco(cep) {
-  
   try {
-    
     const resposta = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
     const endereco = await resposta.json();
 
@@ -66,14 +64,12 @@ function CadastroUsuario() {
   const [cep, setCep] = useState("");
 
   const validarCPF = (cpf) => {
-    // Remove caracteres não numéricos
-    const cpfLimpo = cpf.replace(/\D/g, '');
-    
-    // Verifica se o CPF tem exatamente 11 dígitos
+    const cpfLimpo = cpf.replace(/\D/g, "");
+
     if (cpfLimpo.length !== 11) {
       alert("O CPF deve ter exatamente 11 dígitos.");
-    }    
-    return true; // Retorna true se a validação passar
+    }
+    return true;
   };
 
   const handleBuscarEndereco = async () => {
@@ -87,158 +83,170 @@ function CadastroUsuario() {
     }
   };
 
-  const onSubmit = async (values) => { 
-
+  const onSubmit = async (values) => {
     console.log("Dados do formulário:", values);
- 
+
     const sucesso = await addUsers(values);
 
     console.log("Sucesso da operação:", sucesso);
 
-    if (sucesso) { 
+    if (sucesso) {
       console.log("Navegando para a página inicial");
-      navigate('/'); 
+      navigate("/");
     }
   };
 
   return (
     <>
-    
-      <div>
+      <div className="usuario-cadastro">
+        <h2> CADASTRO DE USUÁRIO </h2>
+
         <form onSubmit={handleSubmit(onSubmit)}>
-          <label>Nome</label>
-          <input
-            placeholder="Digite o nome"
-            {...register("nome", { required: "O nome é obrigatório" })}
-          />
-          {formState.errors?.nome?.message}
+          <div>
+            <label className="usuario-label">Nome</label>
+            <input
+              className="usuario-input"
+              placeholder="Digite o nome"
+              {...register("nome", { required: "O nome é obrigatório" })}
+            />
+            {formState.errors?.nome?.message}
+          </div>
 
-          <label>Sobrenome</label>
-          <input
-            placeholder="Digite o sobrenome"
-            {...register("sobrenome", {
-              required: "O sobrenome é obrigatório",
-            })}
-          />
-          {/* {formState.errors?.sobrenome?.message} */}
+          <div>
+            <label className="usuario-label">Sobrenome</label>
+            <input
+              className="usuario-input"
+              placeholder="Digite o sobrenome"
+              {...register("sobrenome", {
+                required: "O sobrenome é obrigatório",
+              })}
+            />
+            {formState.errors?.sobrenome?.message}
+          </div>
 
-          <label>Data de nascimento</label>
-          <input
-            type="date"
-            placeholder="Digite a data de nascimento"
-            {...register("nascimento", {
-              required: "A data de nascimento é obrigatória",
-            })}
-          />
-          {/* {formState.errors?.nascimento?.message} */}
+          <div>
+            <label className="usuario-label">Data de nascimento</label>
+            <input
+              className="usuario-input"
+              type="date"
+              placeholder="Digite a data de nascimento"
+              {...register("nascimento", {
+                required: "A data de nascimento é obrigatória",
+              })}
+            />
+            {formState.errors?.nascimento?.message}
+          </div>
 
-          <label>Sexo</label>
-          <select {...register('sexo', { required: 'O sexo é obrigatório' })}>
-          <option value=""></option>
-          <option value="feminino">Feminino</option>
-          <option value="masculino">Masculino</option>
-          </select>
-          {formState.errors?.sexo?.message}
+          <div>
+            <label className="usuario-label">Sexo</label>
+            <select
+              className="select-usuario"
+              {...register("sexo", { required: "O sexo é obrigatório" })}
+            >
+              <option value=""></option>
+              <option value="feminino">Feminino</option>
+              <option value="masculino">Masculino</option>
+            </select>
+            {formState.errors?.sexo?.message}
+          </div>
 
-          <label>CPF</label>
-          <input
-            type="text"
-            placeholder="Digite o CPF"
-            {...register("cpf", { required: "O CPF é obrigatório", validate: validarCPF, })}
-          />
-          {/* {formState.errors?.cpf?.message} */}
+          <div>
+            <label className="usuario-label">CPF</label>
+            <input
+              className="usuario-input"
+              type="text"
+              placeholder="Digite o CPF"
+              {...register("cpf", {
+                required: "O CPF é obrigatório",
+                validate: validarCPF,
+              })}
+            />
+            {formState.errors?.cpf?.message}
+          </div>
 
-          <label>Email</label>
-          <input
-            type="email"
-            placeholder="Digite o email"
-            {...register("email", { required: "O email é obrigatório" })}
-          />
-          {/* {formState.errors?.email?.message} */}
+          <div>
+            <label className="usuario-label">Email</label>
+            <input
+              className="usuario-input"
+              type="email"
+              placeholder="Digite o email"
+              {...register("email", { required: "O email é obrigatório" })}
+            />
+            {formState.errors?.email?.message}
+          </div>
 
-          <label>Senha</label>
-          <input
-            type="string"
-            placeholder="Digite a senha"
-            {...register("senha", { required: "O email é obrigatório" })}
-          />
-          {/* {formState.errors?.senha?.message} */}
+          <div>
+            <label className="usuario-label">Senha</label>
+            <input
+              className="usuario-input"
+              type="string"
+              placeholder="Digite a senha"
+              {...register("senha", { required: "O email é obrigatório" })}
+            />
+            {formState.errors?.senha?.message}
+          </div>
 
-          <label>Endereço</label>
-          <input
-            type="string"
-            placeholder="Digite ao endereço"
-            {...register("endereço", { required: "O email é obrigatório" })}
-          />
-          {/* {formState.errors?.endereço?.message} */}
+          <div>
+            <label className="usuario-label">Endereço</label>
+            <input
+              className="usuario-input"
+              type="string"
+              placeholder="Digite ao endereço"
+              {...register("endereço", { required: "O email é obrigatório" })}
+            />
+            {formState.errors?.endereço?.message}
+          </div>
 
-          <label>Número/Complemento</label>
-          <input
-            placeholder="Digite o número do endereço"
-            {...register("numero", { required: "O email é obrigatório" })}
-          />
-          {/* {formState.errors?.numero?.message} */}
+          <div>
+            <label className="usuario-label">Número/Complemento</label>
+            <input
+              className="usuario-input"
+              placeholder="Digite o número do endereço"
+              {...register("numero", { required: "O email é obrigatório" })}
+            />
+            {formState.errors?.numero?.message}
+          </div>
 
-          <label>CEP</label>
-          <input
-            type="text"
-            placeholder="Digite o CEP do endereço"
-            value={cep}
-            onChange={(e) => setCep(e.target.value)}
-          />
-           <button type="button" onClick={handleBuscarEndereco}>
-            Buscar Endereço
-          </button>
-          {/* {formState.errors?.cep?.message} */}
-
-          <button type="submit">Cadastrar</button>
+          <div>
+            <label className="usuario-label">CEP</label>
+            <input
+              className="usuario-input"
+              type="text"
+              placeholder="Digite o CEP do endereço"
+              value={cep}
+              onChange={(e) => setCep(e.target.value)}
+            />
+          </div>
         </form>
+
+        <div className="botoes-cadastrousuario">
+          <div>
+            <button
+              className="btn-buscar"
+              type="button"
+              onClick={handleBuscarEndereco}
+            >
+              Buscar Endereço-CEP
+            </button>
+            {formState.errors?.cep?.message}
+          </div>
+
+          <div>
+            <button className="btn-cadastrar" type="submit">
+              Cadastrar
+            </button>
+          </div>
+
+          <div>
+            <h2>
+              {" "}
+              Já possui cadastro? Faça o seu <Link to="/">Login</Link>
+            </h2>
+          </div>
+        </div>
       </div>
     </>
   );
 }
 
 export default CadastroUsuario;
-
-
-
-// function pegarEndereco() {
-//   let cep = prompt("Digite o seu CEP:");
-
-// fetch(`https://viacep.com.br/ws/${cep}/json`, {method: 'GET'})
-// .then((retornoFetch)=> {
-//   return retornoFetch.json()
-// }).then((retornoApi)=>{
-//   alert(`${retornoApi.logradouro}, ${retornoApi.complemento} - ${retornoApi.bairro} -
-//   ${retornoApi.localidade}/${retornoApi.uf}`);
-
-// let resposta = prompt("Os dados estão corretos?");
-
-// if(resposta.toLocaleLowerCase() == "sim"){
-//   localStorage.setItem("endereco", JSON.stringify(retornoApi));
-// }
-// });
-// }
-
-
-// async function apiCep(){
-//   try {
-//      const dados = await fetch ('https://viacep.com.br/ws/${cep}/json', {
-//      method: 'GET',
-//      headers: {
-//        'Content-Type': 'application/json',
-//      },
-//      body: JSON.stringify(dados),
-//    });
-//    if (!dados.ok) {
-//      alert("Houve um erro ao buscar o cep");
-//      return false; 
-//    } else {
-//      alert("CEP encontrado com sucesso");
-//      return true; 
-//    }
-//  } catch (error) {
-//    alert("Houve um erro- no catch");
-//    return false; 
-//  }
-//  }

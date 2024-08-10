@@ -3,8 +3,9 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { Marcadores } from "../components/Marcadores";
-import 'leaflet/dist/leaflet.css';
 import { MapPin, Pencil, Trash } from "lucide-react";
+import 'leaflet/dist/leaflet.css';
+import '../pages/ListagemLocais.css'
 
 function ListagemLocais() {
   const navigate = useNavigate();
@@ -29,20 +30,16 @@ function ListagemLocais() {
   //EXCLUIR
 
   async function excluirLocal(id) {
-    // Exibe um alerta de confirmação
     const confirmacao = window.confirm("Tem certeza de que deseja excluir este local?");
   
     if (confirmacao) {
       try {
-        // Envia uma solicitação DELETE para o servidor
         await fetch(`http://localhost:3000/locais/${id}`, {
           method: 'DELETE',
         });
   
-        // Atualiza a lista de locais removendo o local excluído
         setLista(lista.filter(local => local.id !== id));
       } catch (error) {
-        // Exibe um alerta se houver um erro durante a exclusão
         alert("Houve um erro ao excluir o local.");
       }
     }
@@ -50,42 +47,40 @@ function ListagemLocais() {
 
   return (
     <>
+      <div className="container-listagem">
       <Sidebar></Sidebar>
-      <div>
-        <h1> LISTAGEM LOCAIS </h1>
-        <button onClick={() => navigate("/cadastrolocais")}>
-        <MapPin size={16}/> Cadastrar</button>
+      <div className="main-content">
+        <h2> LISTAGEM LOCAIS </h2>
 
-        <table border="1">
-          <thead>
-            <tr>
-              <td>Nome do Local</td>
-              <td>Mapa</td>
-            </tr>
-          </thead>
-          <tbody>
+        <div>
+        <button className="btn-cadastrar-listagem" onClick={() => navigate("/cadastrolocais")}>
+        <MapPin size={16}/> Cadastrar</button>
+        </div>
+
+        <div className="tabela-container">
+            <table> 
+            <tbody>
             {lista.map((local) => (
               <tr key={local.id}>
-                <td>{local.nomelocal}</td>
-                <td>
+                <td className="nome-listagem">{local.nomelocal}</td>
+                <td className="mapa-listagem">
                   <MapContainer
                     center={coordenadaInicial}
                     zoom={8}
                     className="mapa-dashboard"
-                    style={{ width: "100px", height: "100px", border: "5px" }}
                   >
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <Marcadores locais={locais}></Marcadores>
                   </MapContainer>
                 </td>
-                <td> 
+                <td className="botao-coluna"> 
                   <Link to={`/cadastrolocais/${local.id}`}>
-                    <button>
+                    <button className="btn-editar-listagem">
                       <Pencil size={16}/>Editar</button>
                   </Link>              
                 </td>
-                <td>
-                  <button onClick={() => excluirLocal(local.id)}>
+                <td className="botao-coluna">  
+                  <button className="btn-excluir-listagem" onClick={() => excluirLocal(local.id)}>
                     <Trash size={16}/>Excluir</button>
                 </td>
               </tr>
@@ -93,9 +88,10 @@ function ListagemLocais() {
           </tbody>
         </table>
       </div>
+      </div>
+      </div>
     </>
   );
 }
 
 export default ListagemLocais;
-
