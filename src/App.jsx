@@ -9,6 +9,7 @@ import CadastroUsuario from "./pages/CadastroUsuario";
 import CadastroLocais from "./pages/CadastroLocais";
 import ListagemLocais from "./pages/ListagemLocais";
 
+
 function App() {
   return (
     <>

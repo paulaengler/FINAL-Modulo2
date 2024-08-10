@@ -40,6 +40,3 @@ export function Marcadores ({ locais }) {
 Marcadores.propTypes = {
     locais: propTypes.array,
 }
-
-
-//localizacao = nomelocal

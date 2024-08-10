@@ -5,30 +5,33 @@ import { MapContainer, TileLayer } from "react-leaflet";
 import { Marcadores } from "../components/Marcadores";
 import { useEffect, useState } from "react";
 import { MapPin } from "lucide-react";
+import "../pages/CadastroLocais.css";
 
 async function saveLocal(values, isEditMode) {
   try {
-    const url = isEditMode ? `http://localhost:3000/locais/${values.id}` : 'http://localhost:3000/locais';
-    const method = isEditMode ? 'PUT' : 'POST';
-    
+    const url = isEditMode
+      ? `http://localhost:3000/locais/${values.id}`
+      : "http://localhost:3000/locais";
+    const method = isEditMode ? "PUT" : "POST";
+
     const resposta = await fetch(url, {
       method: method,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(values),
     });
 
     if (!resposta.ok) {
       alert("Houve um erro ao salvar o local");
-      return false; 
+      return false;
     } else {
       alert("Local salvo com sucesso");
-      return true; 
+      return true;
     }
   } catch (error) {
     alert("Houve um erro ao salvar o local - no catch");
-    return false; 
+    return false;
   }
 }
 
@@ -72,17 +75,17 @@ function RedCadastroLocal() {
     }
   };
 
-  const onSubmit = async (values) => { 
+  const onSubmit = async (values) => {
     const sucesso = await saveLocal(values, isEditMode);
-    if (sucesso) { 
-      navigate('/dashboard'); 
+    if (sucesso) {
+      navigate("/dashboard");
     }
   };
 
   const handleBuscarEndereco = async () => {
     const endereco = await buscarEndereco(cep);
     if (endereco) {
-      setValue("endereço", endereco.logradouro);
+      setValue("endereco", endereco.logradouro);
       setValue("numero", endereco.numero || "");
       setValue("bairro", endereco.bairro);
       setValue("cidade", endereco.localidade);
@@ -92,90 +95,147 @@ function RedCadastroLocal() {
 
   //MAPA
   const [locais, setLocais] = useState([]);
-  const coordenadaInicial = [-27.59249003298383, -48.56058625979836]
+  const coordenadaInicial = [-27.59249003298383, -48.56058625979836];
 
   return (
     <>
-      <Sidebar />
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label>Nome do local</label>
-          <input
-            placeholder="Digite o nome do local"
-            {...register("nomelocal", { required: "O nome do local é obrigatório" })}
-          />
-          {formState.errors?.nomelocal?.message}
+      <div className="cadastro-locais">
+        <Sidebar />
+        <div className="locais">
+          <div>
+            <h2> CADASTRO DE LOCAIS </h2>
+          </div>
 
-          <label>CEP</label>
-          <input
-            type="text"
-            placeholder="Digite o CEP do local"
-            value={cep}
-            onChange={(e) => setCep(e.target.value)}
-          />
-          {formState.errors?.cep?.message}
-          <button type="button" onClick={handleBuscarEndereco}>
-            Buscar Endereço
-          </button>
+          <div className="form-locais">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <label className="local-label">Nome do local</label>
+                <input
+                  className="locais-input"
+                  placeholder="Digite o nome do local"
+                  {...register("nomelocal", {
+                    required: "O nome do local é obrigatório",
+                  })}
+                />
+                {formState.errors?.nomelocal?.message}
+              </div>
 
-          <label>Endereço</label>
-          <input
-            type="string"
-            placeholder="Digite ao endereço"
-            {...register("endereço", { required: "O email é obrigatório" })}
-          />
-          {formState.errors?.endereço?.message}
+              <div>
+                <label className="local-label">CEP</label>
+                <input
+                  className="locais-input"
+                  type="text"
+                  placeholder="Digite o CEP do local"
+                  {...register("cep", { required: "O CEP é obrigatório" })}
+                  value={cep}
+                  onChange={(e) => setCep(e.target.value)}
+                />
+                {formState.errors?.cep?.message}
+              </div>
 
-          <label>Número/Complemento</label>
-          <input
-            placeholder="Digite o número do endereço"
-            {...register("numero", { required: "O email é obrigatório" })}
-          />
-          {formState.errors?.numero?.message}
+              <div>
+                <label className="local-label">Endereço</label>
+                <input
+                  className="locais-input"
+                  type="string"
+                  placeholder="Digite ao endereço"
+                  {...register("endereco", {
+                    required: "O email é obrigatório",
+                  })}
+                />
+                {formState.errors?.endereço?.message}
+              </div>
 
-          <label>Cidade</label>
-          <input
-            placeholder="Digite a cidade do local"
-            {...register("cidade", { required: "A cidade é obrigatória" })}
-          />
-          {formState.errors?.cidade?.message}
+              <div>
+                <label className="local-label">Número/Complemento</label>
+                <input
+                  className="locais-input"
+                  placeholder="Digite o número do endereço"
+                  {...register("numero", { required: "O email é obrigatório" })}
+                />
+                {formState.errors?.numero?.message}
+              </div>
 
-          <label>Latitude</label>
-          <input
-            type="string"
-            placeholder="Digite a latitude"
-            {...register("latitude", { required: "A latitude é obrigatória" })}
-          />
-          {formState.errors?.latitude?.message}
+              <div>
+                <label className="local-label">Cidade</label>
+                <input
+                  className="locais-input"
+                  placeholder="Digite a cidade do local"
+                  {...register("cidade", {
+                    required: "A cidade é obrigatória",
+                  })}
+                />
+                {formState.errors?.cidade?.message}
+              </div>
 
-          <label>Longitude</label>
-          <input
-            type="string"
-            placeholder="Digite a longitude"
-            {...register("longitude", { required: "A longitude é obrigatória" })}
-          />
-          {formState.errors?.longitude?.message}
+              <div>
+                <label className="local-label">Latitude</label>
+                <input
+                  className="locais-input"
+                  type="string"
+                  placeholder="Digite a latitude"
+                  {...register("latitude", {
+                    required: "A latitude é obrigatória",
+                  })}
+                />
+                {formState.errors?.latitude?.message}
+              </div>
 
-          <textarea 
-            placeholder="Digite a descrição do local"
-            {...register("descricao", { required: "A descrição é obrigatória" })}
-          ></textarea>
-       
+              <div>
+                <label className="local-label">Longitude</label>
+                <input
+                  className="locais-input"
+                  type="string"
+                  placeholder="Digite a longitude"
+                  {...register("longitude", {
+                    required: "A longitude é obrigatória",
+                  })}
+                />
+                {formState.errors?.longitude?.message}
+              </div>
+
+              <div>
+                <label className="local-label">Descrição</label>
+                <textarea
+                  className="locais-input"
+                  placeholder="Digite a descrição do local"
+                  {...register("descricao", {
+                    required: "A descrição é obrigatória",
+                  })}
+                ></textarea>
+              </div>
+              <div>
+                <button
+                  className="btn-buscar-locais"
+                  type="button"
+                  onClick={handleBuscarEndereco}
+                >
+                  <MapPin size={16} />
+                  Buscar Endereço-CEP
+                </button>
+                <button className="btn-cadastrar-locais" type="submit">
+                  <MapPin size={16} />
+                  {isEditMode ? "Editar" : "Cadastrar"}
+                </button>
+              </div>
+            </form>
+          </div>
+
           {/* ***MAPA*** */}
-          <div>       
-            <MapContainer center={coordenadaInicial} zoom={8} className="mapa-cadastro" style={{ width: '500px', height: '500px', border: '5px' }}>
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+          <div className="mapa-locais">
+            <MapContainer
+              center={coordenadaInicial}
+              zoom={8}
+              className="mapa-cadastro"
+            >
+              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <Marcadores locais={locais}></Marcadores>
             </MapContainer>
           </div>
-       
-          <button type="submit">
-            <MapPin size={16}/>{isEditMode ? "Editar" : "Cadastrar"}</button>
-        </form>
+        </div>
       </div>
     </>
   );
 }
 
 export default RedCadastroLocal;
-

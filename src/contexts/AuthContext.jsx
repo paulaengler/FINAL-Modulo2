@@ -19,7 +19,6 @@ export function AuthProvider({ children }){
     }, []);
 
     async function signIn(data) {
-        // Verifica se o email e senha estão corretos
         try {
             const response = await fetch(`http://localhost:3000/users?email=${data.email}&senha=${data.senha}`);
             const users = await response.json();
@@ -29,7 +28,7 @@ export function AuthProvider({ children }){
             }
     
             if (users.length > 0) {
-                setUser(data); // Atualizar o estado do usuário
+                setUser(data); 
                 localStorage.setItem('@natureza365:user', JSON.stringify(data)); 
                 return true;                 
             } else {
@@ -38,8 +37,6 @@ export function AuthProvider({ children }){
     
         } catch (error) {
             console.error('Error during signIn:', error);
-            // alert("Email/Senha inválida-authcontext");
-            // throw new Error("Email/Senha inválida");
         }
     }
 
