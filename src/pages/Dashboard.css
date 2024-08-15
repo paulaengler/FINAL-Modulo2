@@ -8,8 +8,7 @@ body, html {
     width: 100vw;
     background-color: #fff1c2;
     font-family: Arial, Helvetica, sans-serif;
-    display: flex;
-   
+    display: flex;   
     border: 1px solid #900b09;
     border-radius: 10px;
 }
@@ -55,7 +54,6 @@ h2 {
 }
 
 .quadro-dash{
-
 border: 3px solid; 
 padding: 10px;
 border-radius: 10px;

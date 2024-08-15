@@ -1,31 +1,37 @@
 import { Sidebar } from "../components/Sidebar";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { Marcadores } from "../components/Marcadores";
 import { MapPin, Pencil, Trash } from "lucide-react";
 import 'leaflet/dist/leaflet.css';
 import '../pages/ListagemLocais.css'
+import { AuthContext } from "../contexts/AuthContext";
 
 function ListagemLocais() {
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [lista, setLista] = useState([]);
 
-  console.log(lista);
-
   async function carregarDados() {
-    const resposta = await fetch("http://localhost:3000/locais");
-    setLista(await resposta.json());
+    if (!user) return;
+
+    try {
+      const resposta = await fetch(`http://localhost:3000/locais?userId=${user.id}`);
+      const locais = await resposta.json();
+      setLista(locais);
+    } catch (error) {
+      console.error("Erro ao carregar dados:", error);
+    }
   }
 
   useEffect(() => {
     carregarDados();
-  }, []);
+  }, [user]);
 
   //MAPA
   const [locais, setLocais] = useState([]);
   const coordenadaInicial = [-27.59249003298383, -48.56058625979836]
-
 
   //EXCLUIR
 
