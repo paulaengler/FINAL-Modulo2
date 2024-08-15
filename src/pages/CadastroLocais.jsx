@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { Sidebar } from "../components/Sidebar";
 import { MapContainer, TileLayer } from "react-leaflet";
 import { Marcadores } from "../components/Marcadores";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { MapPin } from "lucide-react";
+import { AuthContext } from "../contexts/AuthContext";
 import "../pages/CadastroLocais.css";
 
 async function saveLocal(values, isEditMode) {
@@ -53,6 +54,7 @@ async function buscarEndereco(cep) {
 }
 
 function RedCadastroLocal() {
+  const { user } = useContext(AuthContext);
   const navigate = useNavigate();
   const { id } = useParams();
   const { register, formState, handleSubmit, setValue } = useForm();
@@ -76,6 +78,9 @@ function RedCadastroLocal() {
   };
 
   const onSubmit = async (values) => {
+    if (user) {
+      values.userId = user.id; // Adiciona o ID do usuário
+    }
     const sucesso = await saveLocal(values, isEditMode);
     if (sucesso) {
       navigate("/dashboard");

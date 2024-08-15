@@ -11,7 +11,6 @@ html {
   background-color: #fff1c2;
   display: flex;
   gap: 10px;
-  padding: 20px;
   border: 1px solid #900b09;
   border-radius: 10px;
   box-sizing: border-box;
@@ -20,7 +19,7 @@ html {
 .locais {
   flex: 1;
   display: flex;
-  gap: 10px;
+  gap: 20px;
 }
 
 .sidebar {
@@ -52,12 +51,10 @@ html {
 .local-label {
   font-size: large;
   font-family: Arial, Helvetica, sans-serif;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 h2 {
   color: #900b09;
-  font-family: Arial, Helvetica, sans-serif;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -116,7 +113,8 @@ h2 {
   border-radius: 4px;
   font-size: 16px;
   font-family: Arial, sans-serif;
-  color: #333;
+  background-color: #ffffff; 
+  color: #333333;
   box-sizing: border-box;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   display: flex;

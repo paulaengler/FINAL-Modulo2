@@ -37,7 +37,8 @@ h2 {
   border-radius: 4px;
   font-size: 16px;
   font-family: Arial, sans-serif;
-  color: #333;
+  background-color: #ffffff;
+  color: #333333;
   box-sizing: border-box;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -87,4 +88,5 @@ form {
 
 .btn-cadastrar {
   background-color: #14ae5c;
+  
 }

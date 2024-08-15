@@ -179,7 +179,7 @@ function CadastroUsuario() {
             <label className="usuario-label">Senha</label>
             <input
               className="usuario-input"
-              type="string"
+              type="password"
               placeholder="Digite a senha"
               {...register("senha", { required: "O email é obrigatório" })}
             />
@@ -217,9 +217,9 @@ function CadastroUsuario() {
               onChange={(e) => setCep(e.target.value)}
             />
           </div>
-        </form>
 
-        <div className="botoes-cadastrousuario">
+
+          <div className="botoes-cadastrousuario">
           <div>
             <button
               className="btn-buscar"
@@ -243,7 +243,8 @@ function CadastroUsuario() {
               Já possui cadastro? Faça o seu <Link to="/">Login</Link>
             </h2>
           </div>
-        </div>
+          </div>
+        </form> 
       </div>
     </>
   );

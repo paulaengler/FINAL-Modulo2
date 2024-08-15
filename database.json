@@ -76,7 +76,8 @@
       "cidade": "Florianópolis",
       "latitude": "-27.732435",
       "longitude": "-48.525032",
-      "descricao": "Lagoa de água doce em parque natural com área de lazer, bar, snacks, churrasqueiras e mais."
+      "descricao": "Lagoa de água doce em parque natural com área de lazer, bar, snacks, churrasqueiras e mais.",
+      "userId": "1"
     },
     {
       "id": "7",
@@ -87,7 +88,8 @@
       "cidade": "Florianópolis",
       "descricao": "Ótimo lugar para ver o nascer do sol ou somente apreciar o barulho das ondas quebrando nas pedras",
       "latitude": "-27.720663",
-      "longitude": "-48.503634"
+      "longitude": "-48.503634",
+      "userId": "2"
     },
     {
       "id": "8",
@@ -98,7 +100,8 @@
       "cidade": "Florianópolis",
       "descricao": "Uma trilha de acesso moderado (30min) com poucas subidas. Visual muito bonito",
       "latitude": "-27.607534",
-      "longitude": "-48.441059"
+      "longitude": "-48.441059",
+      "userId": "3"
     },
     {
       "id": "9",
@@ -109,7 +112,8 @@
       "cidade": "Florianópolis",
       "descricao": "Reserva de conservação com acampamentos e trilhas ecológicas através de florestas tropicais e restingas",
       "latitude": "-27.526897",
-      "longitude": "-48.427110"
+      "longitude": "-48.427110",
+      "userId": "4"
     },
     {
       "id": "10",
@@ -120,7 +124,8 @@
       "cidade": "Florianópolis",
       "descricao": "Porção estreita de areia entre as praias dos Ingleses e do Santinho com dunas, pequenos lagos, restingas",
       "latitude": "-27.446425",
-      "longitude": "-48.374285"
+      "longitude": "-48.374285",
+      "userId": "5"
     }
   ]
 }

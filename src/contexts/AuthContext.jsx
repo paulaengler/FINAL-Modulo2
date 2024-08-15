@@ -1,21 +1,19 @@
 import { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext({
-    user:null,
+    user: null,
     signIn: async () => {},
     signOut: () => {}
-})
+});
 
-export function AuthProvider({ children }){
-    const [auth, setAuth] = useState(null);
+export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const storageAuth = localStorage.getItem('auth')
-        if (storageAuth){
-            setAuth(JSON.parse(storageAuth));
+        const storageUser = localStorage.getItem('@natureza365:user');
+        if (storageUser) {
+            setUser(JSON.parse(storageUser));
         }
-
     }, []);
 
     async function signIn(data) {
@@ -28,8 +26,9 @@ export function AuthProvider({ children }){
             }
     
             if (users.length > 0) {
-                setUser(data); 
-                localStorage.setItem('@natureza365:user', JSON.stringify(data)); 
+                const loggedInUser = users[0];
+                setUser(loggedInUser); 
+                localStorage.setItem('@natureza365:user', JSON.stringify(loggedInUser)); 
                 return true;                 
             } else {
                 return false;
@@ -37,16 +36,17 @@ export function AuthProvider({ children }){
     
         } catch (error) {
             console.error('Error during signIn:', error);
+            return false;
         }
     }
 
-    async function signOut () {
+    async function signOut() {
         localStorage.removeItem('@natureza365:user');
         setUser(null);
     }
 
-    return(
-        <AuthContext.Provider value={{ auth, setAuth, signIn, signOut }}>
+    return (
+        <AuthContext.Provider value={{ user, signIn, signOut }}>
             {children}
         </AuthContext.Provider>
     );    
